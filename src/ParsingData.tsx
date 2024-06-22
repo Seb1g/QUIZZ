@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 
+type category = [
+  id: number,
+  name: string,
+];
+
 export const RenderCategory = () => {
   const [categories, setCategories] = useState([]);
 
