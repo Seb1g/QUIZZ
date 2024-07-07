@@ -1,46 +1,38 @@
-import { useEffect, useState, ChangeEvent } from "react";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NextUIProvider, Button, Input } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { Input, NextUIProvider } from "@nextui-org/react";
+import { useAllState } from "../Shared/useStateHook";
+import { OptionType, TypeOption, DifficultyOption } from "../Shared/types";
 import "../Shared/styles.css"
 
-
-interface category {
-  id: number;
-  name: string;
-}
-
 const RenderCategory = () => {
-  const difficulty = ['Easy', 'Medium', 'Hard'];
-  const type = ['Boolean', 'Multipe'];
+  const type: TypeOption[] =
+    [
+      {
+        id: 1,
+        name: 'Boolean'
+      },
+      {
+        id: 2,
+        name: 'Multiple'
+      }
+    ];
+  const difficulty: DifficultyOption[] =
+    [
+      {
+        id: 1,
+        name: 'Easy'
+      },
+      {
+        id: 2,
+        name: 'Medium'
+      },
+      {
+        id: 3,
+        name: 'Hard'
+      }
+    ];
 
-  const [categories, setCategories] = useState<category[]>([]);
-  const [selectedCategoryKeys, setSelectedCategoryKeys] = useState(null);
-  const [selectedDifficultyKeys, setSelectedDifficultyKeys] = useState(new Set([]));
-  const [selectedTypeKeys, setSelectedTypeKeys] = useState(new Set([]));
-
-  // const selectedCategoryValue = useMemo(
-  //   () =>
-  //     Array.from(selectedCategoryKeys)
-  //       .join(", ").replaceAll("_", " "),
-  //   [selectedCategoryKeys]
-  // );
-  // const selectedDifficultyValue = useMemo(
-  //   () => Array.from(selectedDifficultyKeys)
-  //     .join(", ").replaceAll("_", " "),
-  //   [selectedDifficultyKeys]
-  // );
-  // const selectedTypeValue = useMemo(
-  //   () => Array.from(selectedTypeKeys)
-  //     .join(", ").replaceAll("_", " "),
-  //   [selectedTypeKeys]
-  // );
-
-  console.log(typeof selectedCategoryKeys, 'three')
-  const [valueQuestions, setValueQuestions] = useState('10');
-  const [url, setUrl] = useState('https://opentdb.com/api.php?amount=')
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValueQuestions(event.target.value);
-  };
-
+  const { categories, setCategories } = useAllState();
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -54,102 +46,109 @@ const RenderCategory = () => {
         console.error('Error fetching data: ', error);
       }
     };
-
     fetchCategory();
-  }, []);
+  }, [setCategories]);
 
-  useEffect(() => {
-    const formationURL = () => {
-      const value = valueQuestions
-      setUrl('https://opentdb.com/api.php?amount=' + value)
-      console.log(url, 'one')
-      
-    }
+
+  const { valueQuestions, setValueQuestions } = useAllState();
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValueQuestions(event.target.value);
+    console.log(valueQuestions);
+  };
+
+  const { selectedDifficulty, setSelectedDifficulty } = useAllState();
+  const { selectedType, setSelectedType } = useAllState();
+  const handleSelectDifficulty = (option: OptionType) => {
+    setSelectedDifficulty(option);
+    console.log(selectedType, selectedDifficulty);
+  };
+  const handleSelectType = (option: OptionType) => {
+    setSelectedType(option);
+    console.log(selectedType, selectedDifficulty);
+  };
+
+  const { selectedCaterogy, setSelectedCaterogy } = useAllState();
+  const handleSelect = (option: OptionType) => {
+    setSelectedCaterogy(option);
+  };
+  const [url, setUrl] = useState('');
+  const API_URL = `https://opentdb.com/api.php`
+  const GenerateLink = () => {
     
-    formationURL()
-  }, [url, valueQuestions])
+    const targetDifficulty = selectedDifficulty?.toLocaleLowerCase();
+    const targetType = selectedType?.toLocaleLowerCase();
+
+    let finalUrl = `${API_URL}`;
+    if (valueQuestions) {
+      finalUrl += `?amount=${valueQuestions}`;
+    }
+    if (selectedCaterogy !== null) {
+      const targetNameCategory = selectedCaterogy;
+      const targetIdCategory = categories.filter(category => category.name === targetNameCategory)[0].id;
+      finalUrl += `&category=${targetIdCategory}`;
+    }
+    if (targetDifficulty !== undefined) {
+      finalUrl += `&difficulty=${targetDifficulty}`;
+    }
+    if (targetType !== undefined) {
+      finalUrl += `&type=${targetType}`;
+    }
+
+    setUrl(
+      // `${API_URL}?amount=${valueQuestions}&category=${targetIdCategory}&difficulty=${targetDifficulty}&type=${targetType}`
+      finalUrl
+    )
+  }
+  console.log(url, 'oen')
 
   return (
-    <div style={{ "display": "flex" }}>
+    <div>
       <NextUIProvider>
-        <Dropdown className="categories">
-          <DropdownTrigger>
-            <Button
-              variant="bordered"
-              className="capitalize"
-            >
-              {/* {selectedCategoryValue} */}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Single selection example"
-            variant="flat"
-            disallowEmptySelection
-            selectionMode="single"
-            // selectedKeys={selectedCategoryKeys}
-            onSelectionChange={setSelectedCategoryKeys}
-          >
-            {categories.map((category) => (
-              <DropdownItem key={category.id}>{category.name}</DropdownItem>
+        <div className='selectCategory'>
+          <h3>Selected Category: {selectedCaterogy}</h3>
+          <select onChange={(e) => handleSelect(e.target.value)}>
+            {categories.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
             ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Input
-          type="number"
-          label=""
-          placeholder="Amount"
-          labelPlacement="outside"
-          onChange={handleInputChange}
-          min={1}
-          max={50}
-        />
-        <Dropdown className="difficulty">
-          <DropdownTrigger>
-            <Button
-              variant="bordered"
-              className="capitalize"
-            >
-              {/* {selectedDifficultyValue} */}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Single selection example"
-            variant="flat"
-            disallowEmptySelection
-            selectionMode="single"
-            selectedKeys={selectedDifficultyKeys}
-            onSelectionChange={setSelectedDifficultyKeys}
-          >
-            {difficulty.map((difficulty) => (
-              <DropdownItem key={difficulty}>{difficulty}</DropdownItem>
+          </select>
+        </div>
+        <div className='valueQue'>
+          <Input
+            type="number"
+            label=""
+            placeholder="Amount"
+            labelPlacement="outside"
+            onChange={handleInputChange}
+            min={1}
+            max={50}
+          />
+        </div>
+        <div className='selectDifAndType'>
+          <h3>Selected Difficulty: {selectedDifficulty}</h3>
+          <select onChange={(e) => handleSelectDifficulty(e.target.value as OptionType)}>
+            {difficulty.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
             ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown className="type">
-          <DropdownTrigger>
-            <Button
-              variant="bordered"
-              className="capitalize"
-            >
-              {/* {selectedTypeValue} */}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Single selection example"
-            variant="flat"
-            disallowEmptySelection
-            selectionMode="single"
-            selectedKeys={selectedTypeKeys}
-            onSelectionChange={setSelectedTypeKeys}
-          >
-            {type.map((type) => (
-              <DropdownItem key={type}>{type}</DropdownItem>
+          </select>
+          <h3>Selected Option: {selectedType}</h3>
+          <select onChange={(e) => handleSelectType(e.target.value as OptionType)}>
+            {type.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
             ))}
-          </DropdownMenu>
-        </Dropdown>
+          </select>
+        </div>
+        <div className='generateButton'>
+          <button onClick={GenerateLink}>Generate Link</button>
+        </div>
       </NextUIProvider>
     </div>
-  );
+  )
 };
 
 export default RenderCategory;
