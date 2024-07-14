@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Routes, Route, Link } from 'react-router-dom';
 import { Input, NextUIProvider } from "@nextui-org/react";
-import { useAllState } from "../Shared/useStateHook";
+import { QuestionsWindow } from "../Pages/QuestionsWindow";
 import { OptionType, TypeOption, DifficultyOption } from "../Shared/types";
+import { useAllState } from "../Shared/useStateHook";
+import { store } from "../Shared/store/Store";
 import "../Shared/styles.css"
 
 const RenderCategory = () => {
@@ -49,7 +52,6 @@ const RenderCategory = () => {
     fetchCategory();
   }, [setCategories]);
 
-
   const { valueQuestions, setValueQuestions } = useAllState();
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValueQuestions(event.target.value);
@@ -57,11 +59,12 @@ const RenderCategory = () => {
   };
 
   const { selectedDifficulty, setSelectedDifficulty } = useAllState();
-  const { selectedType, setSelectedType } = useAllState();
   const handleSelectDifficulty = (option: OptionType) => {
     setSelectedDifficulty(option);
     console.log(selectedType, selectedDifficulty);
   };
+
+  const { selectedType, setSelectedType } = useAllState();
   const handleSelectType = (option: OptionType) => {
     setSelectedType(option);
     console.log(selectedType, selectedDifficulty);
@@ -71,35 +74,32 @@ const RenderCategory = () => {
   const handleSelect = (option: OptionType) => {
     setSelectedCaterogy(option);
   };
-  const [url, setUrl] = useState('');
-  const API_URL = `https://opentdb.com/api.php`
-  const GenerateLink = () => {
-    
-    const targetDifficulty = selectedDifficulty?.toLocaleLowerCase();
-    const targetType = selectedType?.toLocaleLowerCase();
 
-    let finalUrl = `${API_URL}`;
+  const GenerateLink = async () => {
+    const targetDifficulty = selectedDifficulty?.toLowerCase();
+    const targetType = selectedType?.toLowerCase();
+    let finalUrl = "https://opentdb.com/api.php"
     if (valueQuestions) {
       finalUrl += `?amount=${valueQuestions}`;
     }
     if (selectedCaterogy !== null) {
-      const targetNameCategory = selectedCaterogy;
-      const targetIdCategory = categories.filter(category => category.name === targetNameCategory)[0].id;
-      finalUrl += `&category=${targetIdCategory}`;
+      const targetIdCategory = categories.find(category => category.name === selectedCaterogy)?.id;
+      if (targetIdCategory) {
+        finalUrl += `&category=${targetIdCategory}`;
+      }
     }
-    if (targetDifficulty !== undefined) {
+    if (targetDifficulty) {
       finalUrl += `&difficulty=${targetDifficulty}`;
     }
-    if (targetType !== undefined) {
+    if (targetType) {
       finalUrl += `&type=${targetType}`;
     }
-
-    setUrl(
-      // `${API_URL}?amount=${valueQuestions}&category=${targetIdCategory}&difficulty=${targetDifficulty}&type=${targetType}`
-      finalUrl
-    )
+    const action = {
+      type: "url",
+      payload: { url: finalUrl },
+    };
+    store.dispatch(action)
   }
-  console.log(url, 'oen')
 
   return (
     <div>
@@ -118,7 +118,7 @@ const RenderCategory = () => {
           <Input
             type="number"
             label=""
-            placeholder="Amount"
+            placeholder={valueQuestions}
             labelPlacement="outside"
             onChange={handleInputChange}
             min={1}
@@ -144,8 +144,13 @@ const RenderCategory = () => {
           </select>
         </div>
         <div className='generateButton'>
-          <button onClick={GenerateLink}>Generate Link</button>
+          <button onClick={GenerateLink}>
+            <Link to="/question">Generate Link</Link>
+          </button>
         </div>
+        <Routes>
+          <Route path="/question" element={<QuestionsWindow />} />
+        </Routes>
       </NextUIProvider>
     </div>
   )
