@@ -9,6 +9,8 @@ export const useAllState = () => {
   const [selectedCaterogy, setSelectedCaterogy] = useState<OptionType | null>(null);
   const [url, setUrl] = useState('');
   const [questions, setQuestions] = useState<Questions[]>([])
-  return {valueQuestions, categories, selectedDifficulty, selectedType, selectedCaterogy, url, questions, 
-    setCategories, setValueQuestions, setSelectedDifficulty, setSelectedType, setSelectedCaterogy, setUrl, setQuestions}
+  const [questionStep, setQuestionStep] = useState(0);
+  const [answerStep, setAnswerStep] = useState(0);
+  return {valueQuestions, categories, selectedDifficulty, selectedType, selectedCaterogy, url, questions, questionStep, answerStep,
+    setCategories, setValueQuestions, setSelectedDifficulty, setSelectedType, setSelectedCaterogy, setUrl, setQuestions, setQuestionStep, setAnswerStep}
 };

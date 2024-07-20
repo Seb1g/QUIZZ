@@ -1,52 +1,62 @@
-import { useEffect, useState } from "react";
-import { store } from "../Shared/store/Store";
-import { useAllState } from "../Shared/useStateHook";
+import { useDispatch, useSelector } from "react-redux";
+import { FetchQuestions } from "../Shared/FetchData/FetchQuestions/FetchQuestions";
+import { UrlState, UrlStore } from "../Shared/Stores/UrlStore";
+import { useEffect } from "react";
+import { Quiz } from "../Widgets/Quiz"
+import { Result } from "../Widgets/QuizResult"
+import RedirectComponent from '../Shared/RedirectComponent';
 
 export const QuestionsWindow = () => {
-  const { questions, setQuestions } = useAllState();
-  const [answer, setAnswer] = useState<string[][]>([]);
+  const questions = useSelector((state: UrlState) => state.questions);
+  const valueQuestion = useSelector((state: UrlState) => state.valueQuestion);
+  const questionStep = useSelector((state: UrlState) => state.questionStep);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const fetchUrl = store.getState().url;
-        const response = await fetch(fetchUrl);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setQuestions(data.results);
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
+    const getQuestions = async () => {
+      const result = await FetchQuestions()
+      dispatch({ type: "questions", payload: { questions: result.results } })
     };
-    fetchQuestions();
-  }, [setQuestions]);
+    getQuestions();
+  })
 
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const fetchQuestions = () => {
       if (questions && questions.length > 0) {
+        const decodeHTMLEntities = (str: string) => {
+          return str.replace(/&#039;/g, "'").replace(/&quot;/g, '"');
+        };
         const allAnswers = questions.map((question) => {
           const answers = [
-            question.correct_answer,
-            ...(Array.isArray(question.incorrect_answers) ? question.incorrect_answers : [question.incorrect_answers])
+            decodeHTMLEntities(question.correct_answer),
+            ...(Array.isArray(question.incorrect_answers) ?
+              question.incorrect_answers.map(answer => decodeHTMLEntities(answer)) :
+              [decodeHTMLEntities(question.incorrect_answers)])
           ].sort(() => Math.random() - 0.5);
           return answers;
         });
-        setAnswer(allAnswers);
+        const allQuestions = questions.map((question) => {
+          const questions = [
+            question.question.replace(/&#039;/g, "'").replace(/&quot;/g, '"')
+          ];
+          return questions;
+        });
+        dispatch({ type: "answers", payload: { answers: allAnswers } });
+        dispatch({ type: "question", payload: { question: allQuestions } });
       } else {
         console.log('Данные неправильного формата');
       }
     };
     fetchQuestions();
-  }, [questions]);
+  }, [dispatch, questions]);
 
-  useEffect(() => {
-    console.log(answer, "Answers");
-  }, [answer]);
+  const url = UrlStore.getState().url
+  if (url.length <= 1) {
+    return <RedirectComponent />;
+  }
 
   return (
     <div>
-      asdasds
+      {questionStep === valueQuestion ? (<Result />) : (<Quiz />)}
     </div>
-  )
+  );
 };
