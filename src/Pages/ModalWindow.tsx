@@ -1,27 +1,23 @@
 import Modal from 'react-modal';
-import { Fragment, useState } from 'react'
+import { Fragment, useState, FC } from 'react'
 import RenderCategory from '../Widgets/RenderCategory'
-
 Modal.setAppElement('#root');
 
-const ModalWindow = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+const ModalWindow: FC = () => {
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const openModal = () => {
     setModalIsOpen(true);
   };
-
   const closeModal = () => {
     setModalIsOpen(false);
   };
-
   const modalContent = (
     <div>
       <RenderCategory></RenderCategory>
       <button onClick={closeModal}>Close</button>
     </div>
   )
-
   return (
       <Fragment>
         <button onClick={openModal}>Выбрать категории и сложность вопросов</button>
@@ -29,7 +25,7 @@ const ModalWindow = () => {
           {modalContent}
         </Modal>
       </Fragment>
-  );
-};
+  )
+}
 
 export default ModalWindow;

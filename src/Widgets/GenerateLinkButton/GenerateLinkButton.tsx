@@ -14,16 +14,16 @@ export const GenerateLinkButton = () => {
     if (valueQuestions) {
       finalUrl += `?amount=${valueQuestions}`;
     }
-    if (selectedCategory) {
+    if (selectedCategory !== "categories") {
       const targetIdCategory = categories.find(category => category.name === selectedCategory)?.id;
       if (targetIdCategory) {
         finalUrl += `&category=${targetIdCategory}`;
       }
     }
-    if (selectedDifficulty) {
+    if (selectedDifficulty !== "Difficulty") {
       finalUrl += `&difficulty=${selectedDifficulty?.toLowerCase()}`;
     }
-    if (selectedType) {
+    if (selectedType !== "Type") {
       finalUrl += `&type=${selectedType?.toLowerCase()}`;
     }
     dispatch({type: "url", payload: {url: finalUrl}})

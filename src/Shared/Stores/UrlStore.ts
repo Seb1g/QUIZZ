@@ -1,3 +1,6 @@
+// import { combineReducers, configureStore } from "@reduxjs/toolkit";
+// import {  getCategoriesReducer } from "./Reducers";
+
 import { configureStore } from "@reduxjs/toolkit";
 
 export type UrlState = {
@@ -7,7 +10,7 @@ export type UrlState = {
   selectedType: string | null;
   valueQuestion: number;
   categories: [{ id: number, name: string }];
-  questions: [{
+  questions: [ results: {
     type: string, difficulty: string, category: string,
     question: string, correct_answer: string, incorrect_answers: string[]
   }];
@@ -123,6 +126,19 @@ const reducer = (state = urlInitialState, action: UrlAction): UrlState => {
     }
   }
 };
+
+// const rootReducer = combineReducers({
+//   // selectedReducer: selectedReducer,
+//   // inputReducer: inputReducer,
+//   getCategoriesReducer: getCategoriesReducer,
+//   // getQuestionsReducer: getQuestionsReducer,
+//   // getQuestionReducer: getQuestionReducer,
+//   // getAnswersReducer: getAnswersReducer,
+//   // questionStep: questionStep,
+//   // answerStep: answerStep,
+//   // correctAnswers: correctAnswers,
+//   // clearState: clearState,
+// })
 
 export const UrlStore = configureStore({
   reducer

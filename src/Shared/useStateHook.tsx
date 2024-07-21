@@ -11,6 +11,7 @@ export const useAllState = () => {
   const [questions, setQuestions] = useState<Questions[]>([])
   const [questionStep, setQuestionStep] = useState(0);
   const [answerStep, setAnswerStep] = useState(0);
-  return {valueQuestions, categories, selectedDifficulty, selectedType, selectedCaterogy, url, questions, questionStep, answerStep,
-    setCategories, setValueQuestions, setSelectedDifficulty, setSelectedType, setSelectedCaterogy, setUrl, setQuestions, setQuestionStep, setAnswerStep}
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  return {modalIsOpen, valueQuestions, categories, selectedDifficulty, selectedType, selectedCaterogy, url, questions, questionStep, answerStep,
+    setModalIsOpen, setCategories, setValueQuestions, setSelectedDifficulty, setSelectedType, setSelectedCaterogy, setUrl, setQuestions, setQuestionStep, setAnswerStep}
 };

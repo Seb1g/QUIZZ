@@ -11,6 +11,7 @@ export const QuestionsWindow = () => {
   const valueQuestion = useSelector((state: UrlState) => state.valueQuestion);
   const questionStep = useSelector((state: UrlState) => state.questionStep);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const getQuestions = async () => {
       const result = await FetchQuestions()
@@ -58,5 +59,5 @@ export const QuestionsWindow = () => {
     <div>
       {questionStep === valueQuestion ? (<Result />) : (<Quiz />)}
     </div>
-  );
+  )
 };

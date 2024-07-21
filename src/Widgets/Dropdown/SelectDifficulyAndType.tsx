@@ -1,5 +1,7 @@
-import { TypeOption, DifficultyOption, OptionType } from "../../Shared/types";
-import { UrlStore } from "../../Shared/Stores/UrlStore";
+import { TypeOption, DifficultyOption } from "../../Shared/types";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export const SelectDifficultyAndType = () => {
   const type: TypeOption[] =
@@ -30,40 +32,71 @@ export const SelectDifficultyAndType = () => {
       }
     ];
 
-  const handleSelectDifficulty = (option: OptionType) => {
-    const action = {
-      type: "selectedDifficulty",
-      payload: { selectedDifficulty: option}
-    };
-    UrlStore.dispatch(action);
-  };
+  const [selectedDifficultyKeys, setSelectedDifficultyKeys] = useState(new Set(["Difficulty"]));
+  const [selectedTypeKeys, setSelectedTypeKeys] = useState(new Set(["Type"]));
+  const dispatch = useDispatch();
 
-  const handleSelectType = (option: OptionType) => {
-    const action = {
-      type: "selectedType",
-      payload: { selectedType: option}
-    };
-    UrlStore.dispatch(action);
-  };
+  const selectedDifficultyValue = useMemo(
+    () => Array.from(selectedDifficultyKeys).join(", ").replaceAll("_", " "),
+    [selectedDifficultyKeys]
+  );
 
+  const selectedTypeValue = useMemo(
+    () => Array.from(selectedTypeKeys).join(", ").replaceAll("_", " "),
+    [selectedTypeKeys]
+  );
+
+  useEffect(() => {
+    dispatch({type: "selectedDifficulty", payload: { selectedDifficulty: Array.from(selectedDifficultyKeys).toString() }})
+    dispatch({type: "selectedType", payload: { selectedType: Array.from(selectedTypeKeys).toString() }})
+  });
+  
   return (
-    <div className='selectDifAndType'>
-      <h3>Selected Difficulty: {UrlStore.getState().selectedDifficulty}</h3>
-      <select onChange={(e) => handleSelectDifficulty(e.target.value as OptionType)}>
-        {difficulty.map((item) => (
-          <option key={item.id} value={item.name}>
-            {item.name}
-          </option>
-        ))}
-      </select>
-      <h3>Selected Option: {UrlStore.getState().selectedType}</h3>
-      <select onChange={(e) => handleSelectType(e.target.value as OptionType)}>
-        {type.map((item) => (
-          <option key={item.id} value={item.name}>
-            {item.name}
-          </option>
-        ))}
-      </select>
+    <div>
+      <Dropdown>
+        <DropdownTrigger>
+          <Button
+            variant="bordered"
+            className="capitalize"
+          >
+            {selectedDifficultyValue}
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu
+          aria-label="Single selection example"
+          variant="flat"
+          disallowEmptySelection
+          selectionMode="single"
+          selectedKeys={selectedDifficultyKeys}
+          onSelectionChange={setSelectedDifficultyKeys}
+        >
+          {difficulty.map((item) => (
+            <DropdownItem key={item.name}>{item.name}</DropdownItem>
+          ))}
+        </DropdownMenu>
+      </Dropdown>
+      <Dropdown>
+        <DropdownTrigger>
+          <Button
+            variant="bordered"
+            className="capitalize"
+          >
+            {selectedTypeValue}
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu
+          aria-label="Single selection example"
+          variant="flat"
+          disallowEmptySelection
+          selectionMode="single"
+          selectedKeys={selectedTypeKeys}
+          onSelectionChange={setSelectedTypeKeys}
+        >
+          {type.map((item) => (
+            <DropdownItem key={item.name}>{item.name}</DropdownItem>
+          ))}
+        </DropdownMenu>
+      </Dropdown>
     </div>
   );
 };
