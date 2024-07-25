@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import { UrlState } from "../../Shared/Stores/UrlStore";
+import { RootState } from "../../Shared/Stores/UrlStore";
 import { useDispatch, useSelector } from "react-redux";
 
 export const GenerateLinkButton = () => {
-  const selectedDifficulty = useSelector((state: UrlState) => state.selectedDifficulty);
-  const selectedType = useSelector((state: UrlState) => state.selectedType);
-  const valueQuestions = useSelector((state: UrlState) => state.valueQuestion);
-  const selectedCategory = useSelector((state: UrlState) => state.selectedCategory);
-  const categories = useSelector((state: UrlState) => state.categories);
+  const selectedDifficulty = useSelector((state: RootState) => state.selectedReducer.selectedDifficulty);
+  const selectedType = useSelector((state: RootState) => state.selectedReducer.selectedType);
+  const valueQuestions = useSelector((state: RootState) => state.inputReducer.valueQuestion);
+  const selectedCategory = useSelector((state: RootState) => state.selectedReducer.selectedCategory);
+  const categories = useSelector((state: RootState) => state.getCategoriesReducer.categories);
   const dispatch = useDispatch();
   const generateLink = () => {
-    let finalUrl = "https://opentdb.com/api.php"
+    let finalUrl = "https://opentdb.com/api.php";
     if (valueQuestions) {
       finalUrl += `?amount=${valueQuestions}`;
     }
@@ -26,7 +26,7 @@ export const GenerateLinkButton = () => {
     if (selectedType !== "Type") {
       finalUrl += `&type=${selectedType?.toLowerCase()}`;
     }
-    dispatch({type: "url", payload: {url: finalUrl}})
+    dispatch({type: "url", payload: {url: finalUrl}});
   };
   return (
     <div className='generateButton'>

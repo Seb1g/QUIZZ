@@ -1,8 +1,8 @@
-import { UrlState } from "../../Shared/Stores/UrlStore";
-import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from "../../Shared/Stores/UrlStore";
+import { useSelector, useDispatch } from "react-redux";
 
 export const ValueQuestions = () => {
-  const valueQuestions = useSelector((state: UrlState) => state.valueQuestion);
+  const valueQuestions = useSelector((state: RootState) => state.inputReducer.valueQuestion);
   const dispatch = useDispatch();
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value, 10);

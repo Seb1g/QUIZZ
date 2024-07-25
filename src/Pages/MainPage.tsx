@@ -1,7 +1,7 @@
 import React from "react"
-import ModalWindow from "../Pages/ModalWindow";
+import ModalWindow from "./Modal/ModalWindow";
 
-const App: React.FC = () => {
+export const MainPage: React.FC = () => {
   return (
       <div>
         <h1>My Trivia App</h1>
@@ -9,5 +9,3 @@ const App: React.FC = () => {
       </div>
   );
 };
-
-export default App;

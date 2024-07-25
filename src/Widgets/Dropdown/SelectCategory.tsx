@@ -2,12 +2,11 @@ import { FetchCategory } from "../../Shared/FetchData/FetchCategory/FetchCategor
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
 import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from "@nextui-org/react";
-// import { CategoriesState } from "../../Shared/Stores/Type";
-import { UrlState } from "../../Shared/Stores/UrlStore";
+import { RootState } from "../../Shared/Stores/UrlStore";
 
 export const SelectCategory = () => {
   const [selectedCategoryKeys, setSelectedCategoryKeys] = useState(new Set(["Category"]));
-  const categories = useSelector((state: UrlState) => state.categories);
+  const categories = useSelector((state: RootState) => state.getCategoriesReducer.categories);
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export const SelectCategory = () => {
           selectedKeys={selectedCategoryKeys}
           onSelectionChange={setSelectedCategoryKeys}
         >
-          {categories.map((item) => (
+          {categories && categories.map((item) => (
             <DropdownItem key={item.name}>
               {item.name}
             </DropdownItem>

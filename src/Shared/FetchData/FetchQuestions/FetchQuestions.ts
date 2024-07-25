@@ -1,25 +1,30 @@
-import { UrlStore } from "../../Stores/UrlStore";
+export interface Question {
+  type: string,
+  difficulty: string,
+  category: string,
+  question: string,
+  correct_answer: string,
+  incorrect_answers: string[]
+}
 
-let cachedData: string[] | null = null;
-
-export const FetchQuestions = async () => {
+export const fetchQuestions = async (
+  url: string,
+  setCachedData: React.Dispatch<React.SetStateAction<Question[] | null>>
+): Promise<Question[] | void> => {
   try {
-    if (cachedData) {
-      return cachedData;
-    }
-
-    const fetchUrl = UrlStore.getState().url;
-    const response = await fetch(fetchUrl);
-
+    const response = await fetch(url);
     if (!response.ok) {
+      if (response.status === 429) {
+        console.warn('Too many requests. Retrying after a delay...');
+        await new Promise(resolve => setTimeout(resolve, 10000)); 
+        return fetchQuestions(url, setCachedData); 
+      }
       throw new Error('Network response was not ok');
     }
-
     const data = await response.json();
-
     if (data.results) {
-      cachedData = data;
-      return data;
+      setCachedData(data.results); 
+      return data.results; 
     } else {
       throw new Error('Results not found in data');
     }

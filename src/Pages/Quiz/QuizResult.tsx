@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { UrlState } from "../Shared/Stores/UrlStore";
+import { RootState } from "../../Shared/Stores/UrlStore";
 import { Link } from "react-router-dom";
 
 export const Result = () => {
-  const valueQuestion = useSelector((state: UrlState) => state.valueQuestion);
-  const correctAnswers = useSelector((state: UrlState) => state.correctAnswers);
+  const valueQuestion = useSelector((state: RootState) => state.inputReducer.valueQuestion);
+  const correctAnswers = useSelector((state: RootState) => state.correctAnswers.correctAnswers);
   const dispatch = useDispatch();
   const clickHandler = () => {
-    dispatch({type: "clearState"})
+    dispatch({type: "resetAction"})
   }
   return (
     <div className="result">

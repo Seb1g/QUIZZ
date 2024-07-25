@@ -1,6 +1,6 @@
 import Modal from 'react-modal';
 import { Fragment, useState, FC } from 'react'
-import RenderCategory from '../Widgets/RenderCategory'
+import { ModalContent } from './ModalContent'
 Modal.setAppElement('#root');
 
 const ModalWindow: FC = () => {
@@ -14,7 +14,7 @@ const ModalWindow: FC = () => {
   };
   const modalContent = (
     <div>
-      <RenderCategory></RenderCategory>
+      <ModalContent />
       <button onClick={closeModal}>Close</button>
     </div>
   )
