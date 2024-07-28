@@ -1,6 +1,6 @@
 import { TypeOption } from "../../Shared/Types/types";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export const SelectType = () => {
@@ -15,15 +15,14 @@ export const SelectType = () => {
         name: 'Multiple'
       }
     ];
+
   const dispatch = useDispatch()
   const [selectedTypeKeys, setSelectedTypeKeys] = useState(new Set(["Type"]));
-  const selectedTypeValue = useMemo(
-    () => Array.from(selectedTypeKeys).join(", ").replaceAll("_", " "),
-    [selectedTypeKeys]
-  );
+
   useEffect(() => {
     dispatch({ type: "selectedType", payload: { selectedType: Array.from(selectedTypeKeys).toString() }})
   });
+
   return (
     <div>
       <Dropdown>
@@ -32,7 +31,7 @@ export const SelectType = () => {
             variant="bordered"
             className="capitalize"
           >
-            {selectedTypeValue}
+            {selectedTypeKeys}
           </Button>
         </DropdownTrigger>
         <DropdownMenu

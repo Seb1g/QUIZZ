@@ -1,6 +1,6 @@
 import { DifficultyOption } from "../../Shared/Types/types";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export const SelectDifficulty = () => {
@@ -19,15 +19,14 @@ export const SelectDifficulty = () => {
         name: 'Hard'
       }
     ];
+
   const [selectedDifficultyKeys, setSelectedDifficultyKeys] = useState(new Set(["Difficulty"]));
   const dispatch = useDispatch();
-  const selectedDifficultyValue = useMemo(
-    () => Array.from(selectedDifficultyKeys).join(", ").replaceAll("_", " "),
-    [selectedDifficultyKeys]
-  );
+
   useEffect(() => {
     dispatch({type: "selectedDifficulty", payload: { selectedDifficulty: Array.from(selectedDifficultyKeys).toString() }});
   });
+
   return (
     <div>
       <Dropdown>
@@ -36,7 +35,7 @@ export const SelectDifficulty = () => {
             variant="bordered"
             className="capitalize"
           >
-            {selectedDifficultyValue}
+            {selectedDifficultyKeys}
           </Button>
         </DropdownTrigger>
         <DropdownMenu

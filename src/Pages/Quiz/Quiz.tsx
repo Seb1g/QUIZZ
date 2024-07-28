@@ -23,11 +23,11 @@ export const Quiz = () => {
     dispatch({ type: "questionStep", payload: { questionStep: questionStep + 1 } })
     dispatch({ type: "answerStep", payload: { answerStep: answerStep + 1 } })
   };
+
   return (
     <div className="questionBlock"
       style={{ display: "flex", flexDirection: "column" }}>
       <div className="progressBar">
-        hyi
       </div>
       <h1>{htmlDecode(questionRender)}</h1>
       <ul

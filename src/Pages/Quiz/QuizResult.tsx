@@ -6,9 +6,11 @@ export const Result = () => {
   const valueQuestion = useSelector((state: RootState) => state.inputReducer.valueQuestion);
   const correctAnswers = useSelector((state: RootState) => state.correctAnswers.correctAnswers);
   const dispatch = useDispatch();
+
   const clickHandler = () => {
     dispatch({type: "resetAction"})
-  }
+  };
+  
   return (
     <div className="result">
       <h2>Вы отгадали {correctAnswers} ответа из {valueQuestion}</h2>
@@ -17,4 +19,4 @@ export const Result = () => {
       </button>
     </div>
   );
-}
+};

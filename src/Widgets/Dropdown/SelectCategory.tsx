@@ -1,6 +1,6 @@
 import { FetchCategory } from "../../Shared/FetchData/FetchCategory/FetchCategory";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import { RootState } from "../../Shared/Stores/UrlStore";
 
@@ -17,14 +17,9 @@ export const SelectCategory = () => {
     getCategory()
   }, [dispatch])
 
-  const selectedDifficultyValue = useMemo(
-    () => Array.from(selectedCategoryKeys).join(", ").replaceAll("_", " "),
-    [selectedCategoryKeys]
-  );
-
   useEffect(() => {
     dispatch({type: "selectedCategory", payload: { selectedCategory: Array.from(selectedCategoryKeys).toString() }})
-  });
+  }, [dispatch, selectedCategoryKeys]);
 
   return (
     <div>
@@ -34,7 +29,7 @@ export const SelectCategory = () => {
             variant="bordered"
             className="capitalize"
           >
-            {selectedDifficultyValue}
+            {selectedCategoryKeys}
           </Button>
         </DropdownTrigger>
         <DropdownMenu

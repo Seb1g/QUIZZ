@@ -9,15 +9,18 @@ const ModalWindow: FC = () => {
   const openModal = () => {
     setModalIsOpen(true);
   };
+
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
   const modalContent = (
     <div>
       <ModalContent />
       <button onClick={closeModal}>Close</button>
     </div>
-  )
+  );
+  
   return (
       <Fragment>
         <button onClick={openModal}>Выбрать категории и сложность вопросов</button>
@@ -25,7 +28,7 @@ const ModalWindow: FC = () => {
           {modalContent}
         </Modal>
       </Fragment>
-  )
-}
+  );
+};
 
 export default ModalWindow;
