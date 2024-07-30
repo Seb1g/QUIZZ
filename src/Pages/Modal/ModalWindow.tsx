@@ -17,8 +17,7 @@ const ModalWindow: FC = () => {
   };
 
   const modalContent = (
-    <div className='modalContent'
-      style={{ width: "150px" }}>
+    <div className='modalContent'>
       <ModalContent />
       <button onClick={closeModal}>Close</button>
     </div>

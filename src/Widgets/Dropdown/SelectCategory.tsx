@@ -39,6 +39,7 @@ export const SelectCategory = () => {
           selectionMode="single"
           selectedKeys={selectedCategoryKeys}
           onSelectionChange={setSelectedCategoryKeys}
+          style={{ maxHeight: '200px', overflowY: 'auto'}}
         >
           {categories && categories.map((item) => (
             <DropdownItem key={item.name}>
