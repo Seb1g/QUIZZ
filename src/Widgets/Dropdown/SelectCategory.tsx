@@ -1,4 +1,4 @@
-import { FetchCategory } from "../../Shared/FetchData/FetchCategory/FetchCategory";
+import { FetchCategory } from "../../Processes/FetchData/FetchCategory/FetchCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from "@nextui-org/react";

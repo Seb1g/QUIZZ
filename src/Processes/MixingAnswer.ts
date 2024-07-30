@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux"
-import { Question } from "../Shared/FetchData/FetchQuestions/FetchQuestions";
+import { Question } from "./FetchData/FetchQuestions/FetchQuestions";
 
 export const MixingAnswer = (cachedData: Question[]) => {
   const dispatch = useDispatch();

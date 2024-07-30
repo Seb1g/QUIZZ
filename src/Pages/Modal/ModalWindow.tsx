@@ -1,6 +1,8 @@
 import Modal from 'react-modal';
-import { Fragment, useState, FC } from 'react'
+import { useState, FC } from 'react'
 import { ModalContent } from './ModalContent'
+import "../../Shared/Styles/MainPage.sass"
+import "../../Shared/Styles/ModalWindow.sass"
 Modal.setAppElement('#root');
 
 const ModalWindow: FC = () => {
@@ -15,19 +17,20 @@ const ModalWindow: FC = () => {
   };
 
   const modalContent = (
-    <div>
+    <div className='modalContent'
+      style={{ width: "150px" }}>
       <ModalContent />
       <button onClick={closeModal}>Close</button>
     </div>
   );
-  
+
   return (
-      <Fragment>
-        <button onClick={openModal}>Выбрать категории и сложность вопросов</button>
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-          {modalContent}
-        </Modal>
-      </Fragment>
+    <div className="fragment">
+      <button onClick={openModal} className="mainButton">Let's start playing!</button>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="mainModal">
+        {modalContent}
+      </Modal>
+    </div>
   );
 };
 

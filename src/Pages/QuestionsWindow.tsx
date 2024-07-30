@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
-import { fetchQuestions, Question } from "../Shared/FetchData/FetchQuestions/FetchQuestions";
+import { fetchQuestions, Question } from "../Processes/FetchData/FetchQuestions/FetchQuestions";
 import { RootState } from "../Shared/Stores/UrlStore";
 import { useEffect, useState } from "react";
 import { Quiz } from "./Quiz/Quiz";
 import { Result } from "./Quiz/QuizResult";
 import { MixingAnswer } from "../Processes/MixingAnswer";
 import RedirectComponent from '../Processes/RedirectComponent';
+import "../Shared/Styles/QuestionsWindow.sass"
 
 export const QuestionsWindow: React.FC = () => {
   const valueQuestion = useSelector((state: RootState) => state.inputReducer.valueQuestion);
@@ -30,7 +31,7 @@ export const QuestionsWindow: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="questionsWindow">
       {questionStep === valueQuestion ? (<Result />) : (<Quiz />)}
     </div>
   );

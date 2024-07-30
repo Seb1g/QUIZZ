@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Shared/Stores/UrlStore";
 import { Link } from "react-router-dom";
+import "../../Shared/Styles/QuestionsResult.sass"
 
 export const Result = () => {
   const valueQuestion = useSelector((state: RootState) => state.inputReducer.valueQuestion);
@@ -13,9 +14,9 @@ export const Result = () => {
   
   return (
     <div className="result">
-      <h2>Вы отгадали {correctAnswers} ответа из {valueQuestion}</h2>
+      <h2>You guessed {correctAnswers} answers out of {valueQuestion}</h2>
       <button onClick={clickHandler}>
-        <Link to="/" >Repeat</Link>
+        <Link to="/" >Try again</Link>
       </button>
     </div>
   );

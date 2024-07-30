@@ -4,6 +4,7 @@ import { QuestionsWindow } from '../Pages/QuestionsWindow.tsx'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { UrlStore } from '../Shared/Stores/UrlStore.ts'
+import "../Shared/Styles/MainPage.sass"
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={UrlStore}>

@@ -31,10 +31,9 @@ export const Quiz = () => {
       </div>
       <h1>{htmlDecode(questionRender)}</h1>
       <ul
-        style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+        >
         {answerRender.map((item, index) => (
           <button key={index}
-            style={{ background: "blue", width: "80px" }}
             onClick={() => onClickAnswer(index, item)}>
               {htmlDecode(item)}
           </button>

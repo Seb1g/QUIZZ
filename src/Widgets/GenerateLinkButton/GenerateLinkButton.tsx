@@ -6,7 +6,7 @@ export const GenerateLinkButton = () => {
   return (
     <div className='generateButton'>
       <button onClick={generateLink}>
-        <Link to="/question" >Generate Link</Link>
+        <Link to="/question" >Let's begin</Link>
       </button>
     </div>
   );
