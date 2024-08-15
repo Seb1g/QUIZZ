@@ -1,5 +1,5 @@
-import React from "react"
 import ModalWindow from "./Modal/ModalWindow";
+import React from "react"
 
 export const MainPage: React.FC = () => {
   return (

@@ -1,41 +1,44 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../Shared/Stores/UrlStore";
+import { addCorrectAnswer } from "../../Shared/Redux/Slices/quizCorrectAnswersSlice";
+import { setQuestionStep, setAnswerStep } from "../../Shared/Redux/Slices/quizStep";
+import { useGetDynamicDataQuery } from "../../Shared/Redux/Slices/getDataSlice";
+import { useMixingAnswer  } from "../../Processes/MixingAnswer";
+import { RootState } from "../../Shared/Redux/Store/store";
 import { htmlDecode } from "../../Processes/htmlDecode";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Quiz = () => {
-  const answers = useSelector((state: RootState) => state.getAnswersReducer.answers);
-  const question = useSelector((state: RootState) => state.getQuestionReducer.question);
-  const answerStep = useSelector((state: RootState) => state.answerStep.answerStep);
-  const questionStep = useSelector((state: RootState) => state.questionStep.questionStep);
-  const correctAnswers = useSelector((state: RootState) => state.correctAnswers.correctAnswers);
-  const questions = useSelector((state: RootState) => state.getQuestionsReducer.questions)
   const dispatch = useDispatch();
+  const { answers, question } = useSelector((state: RootState) => state.quizData);
+  const { answerStep, questionStep } = useSelector((state: RootState) => state.quizStep);
+  const correctAnswers = useSelector((state: RootState) => state.correctAnswers.correctAnswers);
+  const { data: items, isLoading } = useGetDynamicDataQuery("");
 
-  const questionRender = question[questionStep];
-  const answerRender = answers[answerStep];
-  const onClickAnswer = (index: number, value: string) => {
-    const currentQuestion = questions[questionStep];
-    console.log(index)
-    console.log(value, currentQuestion.correct_answer.replace(/&#039;/g, "'").replace(/&quot;/g, '"'))
-    value === currentQuestion.correct_answer ?
-      dispatch({ type: "correctAnswers", payload: { correctAnswers: correctAnswers + 1 } }) :
-      console.log("not True")
-    dispatch({ type: "questionStep", payload: { questionStep: questionStep + 1 } })
-    dispatch({ type: "answerStep", payload: { answerStep: answerStep + 1 } })
+  useMixingAnswer(items ?? null);
+
+  if (isLoading || !items || !answers || !question) {
+    return <div>Loading...</div>;
+  }
+
+  const onClickAnswer = (value: string) => {
+    const currentQuestion = items.results[questionStep];
+    const correctAnswer = currentQuestion.correct_answer.replace(/&#039;/g, "'").replace(/&quot;/g, '"');
+    if (value === correctAnswer) {
+      dispatch(addCorrectAnswer(correctAnswers + 1));
+    } else {
+      console.log("Incorrect answer");
+    }
+    dispatch(setQuestionStep(questionStep + 1));
+    dispatch(setAnswerStep(answerStep + 1));
   };
 
   return (
-    <div className="questionBlock"
-      style={{ display: "flex", flexDirection: "column" }}>
-      <div className="progressBar">
-      </div>
-      <h1>{htmlDecode(questionRender)}</h1>
-      <ul
-        >
-        {answerRender.map((item, index) => (
-          <button key={index}
-            onClick={() => onClickAnswer(index, item)}>
-              {htmlDecode(item)}
+    <div className="questionBlock" style={{ display: "flex", flexDirection: "column" }}>
+      <div className="progressBar"></div>
+      <h1>{htmlDecode(question[questionStep]?.toString())}</h1>
+      <ul>
+        {answers[answerStep]?.map((item, index) => (
+          <button key={index} onClick={() => onClickAnswer(item)}>
+            {htmlDecode(item)}
           </button>
         ))}
       </ul>

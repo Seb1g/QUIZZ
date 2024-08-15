@@ -1,7 +1,9 @@
+import { Button,Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { setSelectedType } from "../../Shared/Redux/Slices/selectedSlice";
 import { TypeOption } from "../../Shared/Types/types";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Key } from "@react-types/shared"
+import { useState } from "react";
 
 export const SelectType = () => {
   const type: TypeOption[] =
@@ -17,11 +19,7 @@ export const SelectType = () => {
     ];
 
   const dispatch = useDispatch()
-  const [selectedTypeKeys, setSelectedTypeKeys] = useState(new Set(["Type"]));
-
-  useEffect(() => {
-    dispatch({ type: "selectedType", payload: { selectedType: Array.from(selectedTypeKeys).toString() }})
-  });
+  const [selectedTypeKeys, setSelectedTypeKeys] = useState<Set<Key>>(new Set<Key>(["Type"]));
 
   return (
     <div>
@@ -39,11 +37,13 @@ export const SelectType = () => {
           variant="flat"
           disallowEmptySelection
           selectionMode="single"
-          selectedKeys={selectedTypeKeys}
-          onSelectionChange={setSelectedTypeKeys}
+          selectedKeys={Array.from(selectedTypeKeys)}
+          onSelectionChange={(keys) => setSelectedTypeKeys(new Set(keys as Iterable<Key>))}
         >
           {type.map((item) => (
-            <DropdownItem key={item.name}>{item.name}</DropdownItem>
+            <DropdownItem key={item.name}
+            onClick={() => dispatch(setSelectedType(Array.from(selectedTypeKeys).toString())
+            )}>{item.name}</DropdownItem>
           ))}
         </DropdownMenu>
       </Dropdown>

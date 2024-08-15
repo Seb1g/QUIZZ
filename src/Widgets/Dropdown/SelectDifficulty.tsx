@@ -1,7 +1,9 @@
-import { DifficultyOption } from "../../Shared/Types/types";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { setSelectedDifficulty } from "../../Shared/Redux/Slices/selectedSlice";
+import { DifficultyOption } from "../../Shared/Types/types";
 import { useDispatch } from "react-redux";
+import { Key } from "@react-types/shared";
+import { useState } from "react";
 
 export const SelectDifficulty = () => {
   const difficulty: DifficultyOption[] =
@@ -20,12 +22,8 @@ export const SelectDifficulty = () => {
       }
     ];
 
-  const [selectedDifficultyKeys, setSelectedDifficultyKeys] = useState(new Set(["Difficulty"]));
+  const [selectedDifficultyKeys, setSelectedDifficultyKeys] = useState<Set<Key>>(new Set<Key>(["Difficulty"]));
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({type: "selectedDifficulty", payload: { selectedDifficulty: Array.from(selectedDifficultyKeys).toString() }});
-  });
 
   return (
     <div>
@@ -43,11 +41,15 @@ export const SelectDifficulty = () => {
           variant="flat"
           disallowEmptySelection
           selectionMode="single"
-          selectedKeys={selectedDifficultyKeys}
-          onSelectionChange={setSelectedDifficultyKeys}
+          selectedKeys={Array.from(selectedDifficultyKeys)}
+          onSelectionChange={(keys) => setSelectedDifficultyKeys(new Set(keys as Iterable<Key>))}
         >
           {difficulty.map((item) => (
-            <DropdownItem key={item.name}>{item.name}</DropdownItem>
+            <DropdownItem key={item.name}
+            onClick={() => dispatch(
+              setSelectedDifficulty(Array.from(selectedDifficultyKeys).toString())
+            )}
+            >{item.name}</DropdownItem>
           ))}
         </DropdownMenu>
       </Dropdown>
