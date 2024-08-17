@@ -8,14 +8,11 @@ export const Result = () => {
   const valueQuestion = useSelector((state: RootState) => state.selected.selectedValue);
   const correctAnswers = useSelector((state: RootState) => state.correctAnswers.correctAnswers);
   const dispatch = useDispatch();
-  
-  const clickHandler = () => {
-    dispatch(resetState())
-  };
+
   return (
     <div className="result">
       <h2>You guessed {correctAnswers} answers out of {valueQuestion}</h2>
-      <button onClick={clickHandler}>
+      <button onClick={() => dispatch(resetState())}>
         <Link to="/" >Try again</Link>
       </button>
     </div>
