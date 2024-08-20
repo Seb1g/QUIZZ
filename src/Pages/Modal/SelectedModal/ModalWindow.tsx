@@ -1,6 +1,6 @@
 import { ModalContent } from './ModalContent'
-import "../../Shared/Styles/ModalWindow.sass"
-import "../../Shared/Styles/MainPage.sass"
+import "../../../Shared/Styles/ModalWindow.sass"
+import "../../../Shared/Styles/MainPage.sass"
 import { useState, FC } from 'react'
 import Modal from 'react-modal';
 

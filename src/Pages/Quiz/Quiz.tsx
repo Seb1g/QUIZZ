@@ -15,7 +15,19 @@ export const Quiz = () => {
   const { onClickAnswer } = useOnClickAnswer(items ?? undefined);
 
   if (isLoading || !items || !answers || !question) {
-    return <div>Loading...</div>;
+    return <div
+    style={{
+      width: "100vw",
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#968a7e"
+    }}>
+      <p style={{ color: "white", fontSize: "2rem" }}>
+        Loading...
+      </p>
+    </div>;
   }
 
   return (
