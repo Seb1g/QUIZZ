@@ -6,18 +6,23 @@ import { SelectType } from "../../../Widgets/Dropdown/SelectType";
 import { QuestionsWindow } from "../../QuestionsWindow";
 import { Routes, Route } from "react-router-dom";
 import "../../../Shared/Styles/styles.css"
+import { ResultModalContentProps } from '../../../Shared/Types/types';
 
-export const ModalContent = () => {
+export const ModalContent: React.FC<ResultModalContentProps> = ({ setOpen }) => {
   return (
     <div>
-      <SelectCategory />
-      <ValueQuestions />
-      <SelectDifficulty />
-      <SelectType />
-      <GenerateLinkButton />
-      <Routes>
-        <Route path="/question" element={<QuestionsWindow />} />
-      </Routes>
+      <div>
+        <SelectCategory />
+        <ValueQuestions />
+        <SelectDifficulty />
+        <SelectType />
+        <GenerateLinkButton />
+        <Routes>
+          <Route path="/question" element={<QuestionsWindow />} />
+        </Routes>
+      </div>
+      <button
+      onClick={() => setOpen(false)}>Close</button>
     </div>
   )
 };

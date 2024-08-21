@@ -1,33 +1,11 @@
+import { ResultModalContentType, ResultModalContentProps } from "../../../Shared/Types/types"
+import { ReadAllLocalStorage } from "../../../Processes/ReadAllLocalStorage";
 import "../../../Shared/Styles/ScrollBar.sass"
 import React from 'react';
 
-type result = {
-  correctAnswers: number;
-  valueQuestion: number;
-  category: string;
-}
-
-type ResultModalContentProps = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 export const ResultModalContent: React.FC<ResultModalContentProps> = ({ setOpen }) => {
-  function readAllLocalStorage() {
-    const allItems: { [key: string]: string } = {};
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key !== null) {
-        const value = localStorage.getItem(key) ?? "";
-        allItems[key] = value;
-      }
-    }
-    return allItems;
-  }
-
-  const localStorageData = readAllLocalStorage();
-
-  const objectArray: result[] = Object.values(localStorageData).map((str: string) => JSON.parse(str));
-  console.log(localStorageData);
+  const localStorageData = ReadAllLocalStorage();
+  const objectArray: ResultModalContentType[] = Object.values(localStorageData).map((str: string) => JSON.parse(str));
 
   return (
     <div
@@ -61,7 +39,7 @@ export const ResultModalContent: React.FC<ResultModalContentProps> = ({ setOpen 
           padding: "25px 35px",
           borderRadius: "10px",
         }}>
-        {objectArray.map((item: result, index: number) => (
+        {objectArray.map((item: ResultModalContentType, index: number) => (
           <div key={index}
             style={{
               backgroundColor: "#c9c9c9",

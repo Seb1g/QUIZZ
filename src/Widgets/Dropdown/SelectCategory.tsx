@@ -5,17 +5,7 @@ import { AppDispatch } from "../../Shared/Redux/Store/store";
 import { Key } from "@react-types/shared";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-
-interface Category {
-  id: number;
-  name: string;
-}
-interface CategoriesResponse {
-  trivia_categories: Category[];
-  data: CategoriesResponse;
-  isLoading: boolean;
-  isError: boolean;
-}
+import { Category, CategoriesResponse } from "../../Shared/Types/types";
 
 export const SelectCategory = () => {
   const [selectedCategoryKeys, setSelectedCategoryKeys] = useState<Set<Key>>(new Set<Key>(["Category"]));

@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { ResultModalContent } from "./ResultModalContent";
 
-export const ResultModalWindow = () => {
+export const ResultModalWindow: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div>
       <button
         className="openModal"
-        onClick={() => setOpen(true)}>Open</button>
+        onClick={() => setOpen(true)}>
+        Open
+      </button>
       <div>
         {open &&
           <div

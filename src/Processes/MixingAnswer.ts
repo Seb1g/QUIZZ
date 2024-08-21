@@ -1,10 +1,11 @@
 import { setQuestion, setAnswers } from "../Shared/Redux/Slices/quizDataSlice";
 import { Result } from "../Shared/Redux/Slices/getDataSlice";
+import { AppDispatch } from "../Shared/Redux/Store/store";
 import { useDispatch } from "react-redux"
 import { useEffect } from "react";
 
 export const useMixingAnswer  = (items: Result | null) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (items && items !== null) {
       dispatch(setQuestion(items.results.map((question) => [question.question])));

@@ -3,3 +3,7 @@ export type DifficultyOption = { id: number, name: string };
 export type TypeOption  =  { id: number, name: string  };
 export type Category = { id: number, name: string };
 export type Questions = { question: string, correct_answer: string, incorrect_answers: string[]};
+export type CategoriesResponse = { trivia_categories: Category[], data: CategoriesResponse, isLoading: boolean, isError: boolean };
+export type ResultModalContentType = { correctAnswers: number, valueQuestion: number, category: string };
+export type ResultModalContentProps = { setOpen: React.Dispatch<React.SetStateAction<boolean>> };
+export type QuizResult = { correctAnswers: number, valueQuestion: number, category: string | null };
