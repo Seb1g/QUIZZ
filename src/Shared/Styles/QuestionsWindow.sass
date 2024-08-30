@@ -1,25 +1,22 @@
 body
-  display: flex
-  background: #968a7e
   .questionBlock
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
     width: 100vw
-    height: 100vh
-    h1 
+    min-height: 100vh
+    .questionString h1
       color: #fff
       font-size: 30px
       text-align: center
       position: reletive
-    ul
+    .answerBlock ul
       margin-top: 25px
       display: grid
       grid-template-columns: repeat(2, 1fr)
       gap: 10px
-      
-      button
+      .answerItem button
         margin-top: 10px
         padding: 5px 10px
         background-color: lighten(#7a6249, 30%)

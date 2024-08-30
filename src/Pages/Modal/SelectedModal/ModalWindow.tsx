@@ -1,24 +1,24 @@
-import { ModalContent } from './ModalContent'
-import "../../../Shared/Styles/ModalWindow.sass"
-import "../../../Shared/Styles/MainPage.sass"
-import { useState, FC } from 'react'
+import { ModalContent } from './ModalContent';
+import { useState, FC } from 'react';
+import { Button } from '@nextui-org/react';
 
-const ModalWindow: FC = () => {
+export const ModalWindow: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div>
-      <button onClick={() => setOpen(true)}>
-        Open
-      </button>
+      <Button color="default" variant="bordered"
+        className='openModalButton'
+        onClick={() => setOpen(true)}>
+        Let's Play!
+      </Button>
       <div>
         {open &&
-          <div>
+          <div
+            className="wrapperModal">
             <ModalContent setOpen={setOpen}></ModalContent>
           </div>}
       </div>
     </div>
   )
 };
-
-export default ModalWindow;

@@ -3,7 +3,7 @@ import { RootState } from "../../Shared/Redux/Store/store";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Shared/Styles/QuestionsResult.sass"
 import { Link } from "react-router-dom";
-import { PushDataLocalStorage } from "../../Processes/PushDataLocalStorage";
+import { PushDataLocalStorage } from "../../Features/PushDataLocalStorage";
 
 export const Result = () => {
   const valueQuestion = useSelector((state: RootState) => state.selected.selectedValue);

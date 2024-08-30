@@ -1,17 +1,19 @@
 import { GenerateLinkButton } from '../../../Widgets/GenerateLinkButton/GenerateLinkButton';
 import { SelectDifficulty } from '../../../Widgets/Dropdown/SelectDifficulty';
-import { ValueQuestions } from "../../../Widgets/NumberInput/ValueQuestions"
-import { SelectCategory } from "../../../Widgets/Dropdown/SelectCategory"
-import { SelectType } from "../../../Widgets/Dropdown/SelectType";
-import { QuestionsWindow } from "../../QuestionsWindow";
-import { Routes, Route } from "react-router-dom";
-import "../../../Shared/Styles/styles.css"
+import { ValueQuestions } from '../../../Widgets/NumberInput/ValueQuestions';
+import { SelectCategory } from '../../../Widgets/Dropdown/SelectCategory';
+import { SelectType } from '../../../Widgets/Dropdown/SelectType';
+import { QuestionsWindow } from '../../QuestionsWindow';
+import { Routes, Route } from 'react-router-dom';
 import { ResultModalContentProps } from '../../../Shared/Types/types';
+import '../../../Shared/Styles/ModalWindow/SelectedModalStyle/ModalWindowContent.sass';
 
 export const ModalContent: React.FC<ResultModalContentProps> = ({ setOpen }) => {
   return (
-    <div>
-      <div>
+    <div
+      className='modalBlock'>
+      <div
+        className='dataContainer'>
         <SelectCategory />
         <ValueQuestions />
         <SelectDifficulty />
@@ -22,7 +24,10 @@ export const ModalContent: React.FC<ResultModalContentProps> = ({ setOpen }) => 
         </Routes>
       </div>
       <button
-      onClick={() => setOpen(false)}>Close</button>
+        className='modalButton'
+        onClick={() => setOpen(false)}>
+        Close
+      </button>
     </div>
   )
 };

@@ -1,0 +1,50 @@
+.modalBlock
+  background-color: #fff
+  width: 600px
+  max-width: 600px
+  max-height: 500px
+  padding: 30px 30px
+  border-radius: 10px
+  position: absolute
+  left: 50%
+  top: 50%
+  transform: translate(-50%, -50%)
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1)
+  transition: all 0.5s ease-in-out
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  .dataContainer
+    max-height: 300px
+    overflow-y: auto
+    width: 100%
+    margin-bottom: 20px
+    display: grid
+    gap: 10px
+    background-color: #e3e3e3
+    padding: 25px 35px
+    border-radius: 10px
+    .data
+      background-color: #c9c9c9
+      padding: 10px
+      border-radius: 10px
+      display: grid
+      place-items: center
+      margin-bottom: 10px
+  .modalButton
+    background-color: #c9c9c9
+    height: 40px
+    width: 80px
+    border-radius: 10px
+    align-self: center
+.wrapperModal
+  position: absolute
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  transition: all 0.5s ease-in-out
+  z-index: 1000
+.openModalButton
+  background-color: #cfcecc
+  border-color: #a1a1a1

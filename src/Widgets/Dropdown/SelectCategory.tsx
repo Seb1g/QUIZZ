@@ -13,7 +13,11 @@ export const SelectCategory = () => {
   const dispatch: AppDispatch = useDispatch();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Button color="default" variant="bordered" isLoading>
+        Loading...
+      </Button>
+    )
   }
   
   if (isError || !items?.trivia_categories) {

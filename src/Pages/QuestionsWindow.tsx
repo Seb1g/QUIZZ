@@ -1,4 +1,4 @@
-import RedirectComponent from '../Processes/RedirectComponent';
+import RedirectComponent from '../Features/RedirectComponent';
 import { RootState } from "../Shared/Redux/Store/store";
 import "../Shared/Styles/QuestionsWindow.sass"
 import { Result } from "./Quiz/QuizResult";
